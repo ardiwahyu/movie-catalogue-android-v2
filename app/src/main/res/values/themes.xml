@@ -3,6 +3,7 @@
     <style name="Theme.MovieCatalogueV2" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="backgroundColor">@color/colorPrimary</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
     </style>
