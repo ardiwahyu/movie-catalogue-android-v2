@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#FFFFFF</color>
     <color name="colorBlack">#000000</color>
     <color name="colorAccent">@color/quantum_orange</color>
+    <color name="divider">#F4F4F4</color>
+    <color name="defaultColor">@color/quantum_grey</color>
 </resources>

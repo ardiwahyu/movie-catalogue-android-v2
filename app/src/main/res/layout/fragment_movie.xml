@@ -10,7 +10,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:paddingHorizontal="16dp"
+        android:paddingTop="16dp">
 
         <TextView
             android:id="@+id/tvNowPopular"
@@ -28,11 +29,13 @@
             android:layout_height="wrap_content"
             android:text="The Upcomming"
             android:textStyle="bold"
+            android:textColor="@color/defaultColor"
             android:layout_marginStart="32dp"
             app:layout_constraintStart_toEndOf="@id/tvNowPopular"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/dividerPopular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="@id/tvNowPopular"
@@ -54,6 +57,7 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/dividerUpcomming"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
@@ -75,4 +79,15 @@
                 android:background="@drawable/bg_orange_rounded_50"/>
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/divider"/>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fcvFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </androidx.appcompat.widget.LinearLayoutCompat>

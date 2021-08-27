@@ -29,11 +29,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initUi() {
-        supportFragmentManager.beginTransaction().apply {
-            replace(binding.fcvFragment.id, MovieFragment())
-            disallowAddToBackStack()
-            commit()
-        }
+        changeFragment(MovieFragment())
         binding.bnNavigation.setNavigationChangeListener { _, position ->
             when (position) {
                 0 -> changeFragment(MovieFragment())

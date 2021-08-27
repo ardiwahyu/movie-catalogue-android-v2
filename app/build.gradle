@@ -49,6 +49,7 @@ android {
         versionName getVersionName()
 
         buildConfigField "String", "BASE_URL", '"https://api.themoviedb.org/3/"'
+        buildConfigField "String", "BASE_URL_IMAGE", '"https://image.tmdb.org/t/p/"'
         buildConfigField "String", "API_KEY", '"eb2e823cfd652e3e9ace64ed25a7240c"'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
