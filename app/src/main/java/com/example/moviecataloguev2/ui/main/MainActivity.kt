@@ -65,11 +65,11 @@ class MainActivity : AppCompatActivity(), OnRecyclerViewScrolled {
     }
 
     override fun show() {
-        binding.cvNavigation.animate().translationY((binding.cvNavigation.height + binding.cvNavigation.marginBottom).toFloat())
-            .setInterpolator(AccelerateInterpolator(2F)).start()
+        binding.cvNavigation.animate().translationY(0F).setInterpolator(DecelerateInterpolator(2F)).start()
     }
 
     override fun hide() {
-        binding.cvNavigation.animate().translationY(0F).setInterpolator(DecelerateInterpolator(2F)).start()
+        binding.cvNavigation.animate().translationY((binding.cvNavigation.height + binding.cvNavigation.marginBottom).toFloat())
+            .setInterpolator(AccelerateInterpolator(2F)).start()
     }
 }
