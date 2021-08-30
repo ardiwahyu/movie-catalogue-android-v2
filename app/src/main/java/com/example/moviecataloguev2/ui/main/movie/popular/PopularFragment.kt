@@ -40,11 +40,11 @@ class PopularFragment : Fragment() {
         binding.rvListMovie.adapter = listMovieAdapter
         binding.rvListMovie.addOnScrollListener(object : RecyclerViewScroll() {
             override fun hide() {
-                listener.show()
+                listener.hide()
             }
 
             override fun show() {
-                listener.hide()
+                listener.show()
             }
         })
     }
