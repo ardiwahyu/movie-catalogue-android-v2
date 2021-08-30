@@ -9,8 +9,10 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.moviecataloguev2.R
 import com.example.moviecataloguev2.databinding.FragmentPopularBinding
+import com.example.moviecataloguev2.ui.main.OnRecyclerViewScrolled
 import com.example.moviecataloguev2.ui.main.movie.ListGenreAdapter
 import com.example.moviecataloguev2.ui.main.movie.ListMovieAdapter
+import com.example.moviecataloguev2.utils.recyclerview.RecyclerViewScroll
 import com.stone.vega.library.VegaLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -33,8 +35,18 @@ class PopularFragment : Fragment() {
         initObserver()
         viewModel.getPopular("en-US", 1)
 
+        val listener = requireActivity() as OnRecyclerViewScrolled
         binding.rvListMovie.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rvListMovie.adapter = listMovieAdapter
+        binding.rvListMovie.addOnScrollListener(object : RecyclerViewScroll() {
+            override fun hide() {
+                listener.show()
+            }
+
+            override fun show() {
+                listener.hide()
+            }
+        })
     }
 
     private fun initObserver() {

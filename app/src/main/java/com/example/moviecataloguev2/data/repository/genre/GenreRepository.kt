@@ -45,12 +45,6 @@ class GenreRepository @Inject constructor(
         }
     }
 
-//    suspend fun getGenre(listId: List<Int>): List<String> {
-//        return withContext(Dispatchers.IO) {
-//            return@withContext genreDao.getNameGenre(listId)
-//        }
-//    }
-
     suspend fun getAllGenre(): CekGenreResult {
         val status = MutableLiveData<Boolean>()
         return withContext(Dispatchers.IO) {
