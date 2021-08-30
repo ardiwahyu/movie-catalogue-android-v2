@@ -19,5 +19,6 @@ class Movie (
     @SerializedName("popularity") val popularity: Double,
     @SerializedName("vote_count") val voteCount: Int,
     @SerializedName("video") val video: Boolean,
-    @SerializedName("vote_average") val voteAverage: Double
+    @SerializedName("vote_average") val voteAverage: Double,
+    var listGenreString: ArrayList<String>
 ): Parcelable

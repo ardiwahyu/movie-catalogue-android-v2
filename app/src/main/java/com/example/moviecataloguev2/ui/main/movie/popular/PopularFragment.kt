@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.moviecataloguev2.R
 import com.example.moviecataloguev2.databinding.FragmentPopularBinding
+import com.example.moviecataloguev2.ui.main.movie.ListGenreAdapter
 import com.example.moviecataloguev2.ui.main.movie.ListMovieAdapter
 import com.stone.vega.library.VegaLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,7 +33,7 @@ class PopularFragment : Fragment() {
         initObserver()
         viewModel.getPopular("en-US", 1)
 
-        binding.rvListMovie.layoutManager = VegaLayoutManager()
+        binding.rvListMovie.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rvListMovie.adapter = listMovieAdapter
     }
 

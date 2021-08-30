@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -30,6 +31,14 @@ class ListMovieAdapter @Inject constructor() :
                 .load(BASE_URL_IMAGE+"w500/"+movie.posterPath)
                 .transform(RoundedCorners(16))
                 .into(holder.binding.ivPoster)
+
+            val listGenreAdapter = ListGenreAdapter()
+            holder.binding.rvListGenre.layoutManager = LinearLayoutManager(
+                holder.binding.rvListGenre.context,
+                LinearLayoutManager.HORIZONTAL, false
+            )
+            holder.binding.rvListGenre.adapter = listGenreAdapter
+            listGenreAdapter.submitList(movie.listGenreString)
         } catch (e: Exception) {
             e.printStackTrace()
         }

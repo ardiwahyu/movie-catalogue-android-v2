@@ -50,38 +50,34 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="16dp"
-            android:weightSum="3">
+            android:padding="16dp">
 
             <com.gauravk.bubblenavigation.BubbleToggleView
                 android:id="@+id/btMovie"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:bt_icon="@drawable/ic_round_movie"
                 app:bt_colorActive="#E37470"
                 app:bt_colorInactive="#E4716F"
-                app:bt_title="Movie"
-                android:layout_weight="1"/>
+                app:bt_title="Movie"/>
 
             <com.gauravk.bubblenavigation.BubbleToggleView
                 android:id="@+id/btSearch"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:bt_icon="@drawable/ic_round_search"
                 app:bt_colorActive="#7EC681"
                 app:bt_colorInactive="#92C795"
-                app:bt_title="Search"
-                android:layout_weight="1"/>
+                app:bt_title="Search"/>
 
             <com.gauravk.bubblenavigation.BubbleToggleView
                 android:id="@+id/btLike"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:bt_icon="@drawable/ic_round_favorite"
                 app:bt_colorInactive="#DE746F"
                 app:bt_colorActive="#E37470"
-                app:bt_title="Favorite"
-                android:layout_weight="1"/>
+                app:bt_title="Favorite"/>
         </com.gauravk.bubblenavigation.BubbleNavigationLinearView>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

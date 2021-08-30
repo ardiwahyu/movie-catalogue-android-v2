@@ -45,14 +45,11 @@ class GenreRepository @Inject constructor(
         }
     }
 
-    suspend fun getGenre(listId: List<Int>): GenreResult {
-        return withContext(Dispatchers.IO) {
-            loading.postValue(true)
-            listGenre.postValue(genreDao.getNameGenre(listId))
-            loading.postValue(false)
-            return@withContext GenreResult(loading, error, listGenre)
-        }
-    }
+//    suspend fun getGenre(listId: List<Int>): List<String> {
+//        return withContext(Dispatchers.IO) {
+//            return@withContext genreDao.getNameGenre(listId)
+//        }
+//    }
 
     suspend fun getAllGenre(): CekGenreResult {
         val status = MutableLiveData<Boolean>()

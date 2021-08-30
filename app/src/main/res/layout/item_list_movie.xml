@@ -31,7 +31,7 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:padding="16dp">
 
                     <TextView
@@ -69,6 +69,17 @@
                         android:layout_marginTop="4dp"
                         app:layout_constraintStart_toStartOf="@id/tvTitle"
                         app:layout_constraintTop_toBottomOf="@id/tvTitle"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvListGenre"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        android:orientation="horizontal"
+                        tools:listitem="@layout/item_list_genre"
+                        app:layout_constraintStart_toStartOf="@id/tvTitle"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
