@@ -1,5 +1,6 @@
 package com.example.moviecataloguev2.ui.main.movie.popular
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,7 +9,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.moviecataloguev2.R
+import com.example.moviecataloguev2.data.remote.model.Movie
 import com.example.moviecataloguev2.databinding.FragmentPopularBinding
 import com.example.moviecataloguev2.ui.main.OnRecyclerViewScrolled
 import com.example.moviecataloguev2.ui.main.movie.ListGenreAdapter
@@ -25,6 +28,10 @@ class PopularFragment : Fragment() {
     private lateinit var binding: FragmentPopularBinding
     private val viewModel by viewModels<PopularViewModel>()
     @Inject lateinit var listMovieAdapter: ListMovieAdapter
+    private var isLoading = false
+    private val listMovie = arrayListOf<Movie?>()
+    private var maxPage = 1
+    private var currentPage = 1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,15 +57,49 @@ class PopularFragment : Fragment() {
             override fun show() {
                 listener.show()
             }
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val linearLayoutManager = recyclerView.layoutManager as LinearLayoutManager?
+                if (!isLoading) {
+                    if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == listMovie.size-1) {
+                        loadMore()
+                        isLoading = true
+                    }
+                }
+            }
         })
+    }
+
+    private fun loadMore() {
+        if (currentPage < maxPage) {
+            listMovie.add(null)
+            listMovieAdapter.notifyItemInserted(listMovie.size - 1)
+
+            viewModel.getPopular("en-US", ++currentPage)
+        }
     }
 
     private fun initObserver() {
         viewModel.results.observe(requireActivity(), {
-            listMovieAdapter.submitList(it.result)
+            if (!isLoading) {
+                listMovie.addAll(it.result)
+                listMovieAdapter.submitList(listMovie)
+            } else {
+                listMovie.removeAt(listMovie.size-1)
+                val scrollPosition = listMovie.size
+                listMovieAdapter.notifyItemRemoved(scrollPosition)
+                listMovie.addAll(it.result)
+                isLoading = false
+            }
+            maxPage = it.totalPages
+            currentPage = it.page
         })
         viewModel.loading.observe(requireActivity(), {
-            if (it) binding.sflLoading.start() else binding.sflLoading.stop()
+            if (!isLoading) {
+                if (it) binding.sflLoading.start() else binding.sflLoading.stop()
+            }
         })
         viewModel.error.observe(requireActivity(), {
             Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()

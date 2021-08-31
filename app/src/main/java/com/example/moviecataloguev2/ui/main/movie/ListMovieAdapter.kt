@@ -11,44 +11,66 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.moviecataloguev2.BuildConfig.BASE_URL_IMAGE
 import com.example.moviecataloguev2.data.remote.model.Movie
+import com.example.moviecataloguev2.databinding.ItemListLoadingBinding
 import com.example.moviecataloguev2.databinding.ItemListMovieBinding
+import com.example.moviecataloguev2.databinding.PlaceholderListMovieBinding
 import javax.inject.Inject
 
 class ListMovieAdapter @Inject constructor() :
-    ListAdapter<Movie, ListMovieAdapter.ViewHolder>(diffUtils){
+    ListAdapter<Movie, RecyclerView.ViewHolder>(diffUtils){
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ItemListMovieBinding.inflate(LayoutInflater.from(parent.context))
-        return ViewHolder(binding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return if (viewType == VIEW_TYPE_ITEM) {
+            val binding = ItemListMovieBinding.inflate(LayoutInflater.from(parent.context))
+            ViewHolder(binding)
+        } else {
+            val binding = ItemListLoadingBinding.inflate(LayoutInflater.from(parent.context))
+            LoadingViewHolder(binding)
+        }
     }
 
     @SuppressLint("CheckResult")
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        try {
-            val movie = getItem(position)
-            holder.binding.movie = movie
-            Glide.with(holder.binding.ivPoster.context)
-                .load(BASE_URL_IMAGE+"w500/"+movie.posterPath)
-                .transform(RoundedCorners(16))
-                .into(holder.binding.ivPoster)
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+//        try {
+            if (holder is ViewHolder) {
+                val movie = getItem(position)
+                holder.binding.movie = movie
+                Glide.with(holder.binding.ivPoster.context)
+                    .load(BASE_URL_IMAGE + "w500/" + movie.posterPath)
+                    .transform(RoundedCorners(16))
+                    .into(holder.binding.ivPoster)
 
-            val listGenreAdapter = ListGenreAdapter()
-            holder.binding.rvListGenre.layoutManager = LinearLayoutManager(
-                holder.binding.rvListGenre.context,
-                LinearLayoutManager.HORIZONTAL, false
-            )
-            holder.binding.rvListGenre.adapter = listGenreAdapter
-            listGenreAdapter.submitList(movie.listGenreString)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+                val listGenreAdapter = ListGenreAdapter()
+                holder.binding.rvListGenre.layoutManager = LinearLayoutManager(
+                    holder.binding.rvListGenre.context,
+                    LinearLayoutManager.HORIZONTAL, false
+                )
+                holder.binding.rvListGenre.adapter = listGenreAdapter
+                listGenreAdapter.submitList(movie.listGenreString)
+            } else if (holder is LoadingViewHolder) {
+                holder.binding.sflLoading.startShimmer()
+            }
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//        }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (getItem(position) == null) VIEW_TYPE_LOADING else VIEW_TYPE_ITEM
     }
 
     class ViewHolder(itemBinding: ItemListMovieBinding) : RecyclerView.ViewHolder(itemBinding.root) {
         var binding: ItemListMovieBinding = itemBinding
     }
 
+    class LoadingViewHolder(itemBinding: ItemListLoadingBinding) : RecyclerView.ViewHolder(itemBinding.root) {
+        var binding: ItemListLoadingBinding = itemBinding
+    }
+
     companion object {
+        private const val VIEW_TYPE_ITEM = 0
+        private const val VIEW_TYPE_LOADING = 1
+
         private val diffUtils = object : DiffUtil.ItemCallback<Movie>() {
             override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean =
                 oldItem.id == newItem.id
