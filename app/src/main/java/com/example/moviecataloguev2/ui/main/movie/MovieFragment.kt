@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.viewModels
 import com.example.moviecataloguev2.R
 import com.example.moviecataloguev2.databinding.FragmentMovieBinding
 import com.example.moviecataloguev2.ui.main.movie.popular.PopularFragment

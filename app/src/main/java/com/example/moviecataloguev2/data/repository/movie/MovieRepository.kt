@@ -57,4 +57,40 @@ class MovieRepository @Inject constructor(
             return@withContext MovieResult(loading, error, listMovie)
         }
     }
+
+    suspend fun getUpcomming(language: String, page: Int): MovieResult {
+        return withContext(Dispatchers.IO) {
+            loading.postValue(true)
+            try {
+                val response = apiServices.getUpcomming(
+                    language = language,
+                    page = page
+                )
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    val listMovieNew = arrayListOf<Movie>()
+                    responseBody?.result?.forEach { movie ->
+                        movie.listGenreString = arrayListOf()
+                        movie.listGenreString.addAll(genreDao.getNameGenre(movie.genreId))
+                        listMovieNew.add(movie)
+                    }
+                    listMovie.postValue(
+                        MovieResponse(
+                            page = responseBody!!.page,
+                            result = listMovieNew,
+                            totalResults = responseBody.totalResults,
+                            totalPages = responseBody.totalPages
+                        ))
+                } else {
+                    val errorResponse = Gson().fromJson(response.errorBody()?.string(), Error::class.java)
+                    error.postValue(errorResponse.statusMessage)
+                }
+            } catch (e: Exception) {
+                error.postValue(e.localizedMessage)
+                Timber.d(e.localizedMessage)
+            }
+            loading.postValue(false)
+            return@withContext MovieResult(loading, error, listMovie)
+        }
+    }
 }
